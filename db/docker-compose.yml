@@ -1,0 +1,39 @@
+
+services:
+
+  axiom-db-node1:
+    container_name: axiom-db-node1
+    image: axiom-db-node:latest
+    restart: always
+    command: --seeds=axiom-db-node1,axiom-db-node2 --smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0
+    volumes:
+      - "./scylla/scylla.yaml:/etc/scylla/scylla.yaml"
+      - "./scylla/cassandra-rackdc.properties.dc1:/etc/scylla/cassandra-rackdc.properties"
+    networks:
+      web:
+
+  axiom-db-node2:
+    container_name: axiom-db-node2
+    image: axiom-db-node:latest
+    restart: always
+    command: --seeds=axiom-db-node1,axiom-db-node2 --smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0
+    volumes:
+      - "./scylla/scylla.yaml:/etc/scylla/scylla.yaml"
+      - "./scylla/cassandra-rackdc.properties.dc1:/etc/scylla/cassandra-rackdc.properties"
+    networks:
+      web:
+
+  axiom-db-node3:
+    container_name: axiom-db-node3
+    image: axiom-db-node:latest
+    restart: always
+    command: --seeds=axiom-db-node1,axiom-db-node2 --smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0
+    volumes:
+      - "./scylla/scylla.yaml:/etc/scylla/scylla.yaml"
+      - "./scylla/cassandra-rackdc.properties.dc1:/etc/scylla/cassandra-rackdc.properties"
+    networks:
+      web:
+
+networks:
+  web:
+    driver: bridge
